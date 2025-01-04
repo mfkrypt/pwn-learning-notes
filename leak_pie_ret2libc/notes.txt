@@ -1,0 +1,18 @@
+Initial notes / thoughts:
+
+a) if ASLR is on need to leak base address, if PIE is on need to leak piebase
+
+b) Piebase if ada format string vuln boleh leak tapi kalau dia tak mention function apa yang leak tak boleh suka2 leak function tu https://ir0nstone.gitbook.io/notes/binexp/stack/pie/pie-bypass
+
+c) Like this one we leak a value and kita dapat piebase dia in binary pastu boleh tolak and dapat piebase in runtime, refer to:
+
+~/pwn_scripts/ironstone_pie_bypass/32-bit/32bit_script.py
+
+
+d) Flow:
+
+1. Leak PIE base
+2. Update gadget values (Add PIE base value) 
+3. Leak a libc function 
+4. Leak Libc base address
+5. call system(/bin/sh)

@@ -1,0 +1,56 @@
+Reference: https://axcheron.github.io/exploit-101-format-strings/
+
+======== Writing to the Stack ========
+
+buffer starts printing at 7th argument
+
+
+
+
+## AAAA%n, means that we will write the value 4 (because the size of “AAAA” equals 4)
+
+
+***0xdeadc0de found at 0xffffceac
+break at main, keep stepping over until fgets(i think, then inspect the address 0xffffceac)
+
+
+\xac\xce\xff\xff%7$n should write '4' at 0xffffceac, it worked but we want to write 0xcafebabe in decimal.
+
+Trick: AAAA%<value-4>x%7$n (it’s value-4 because we already wrote 4 bytes, AAAA). For example, AAAA%96x%7$n will write the value 100 at the address 0x41414141. Why ? Because %100x will print your agument padded with 100 bytes (FYI, it pads with “space”).
+
+Senang cerita dia tambah yang 4 tu dengan 96 pastu output dia jadi space padding
+
+Takleh write terus 0xcafebabe in decimal sebab besar sangat (3405691582), so instead of long integers (the address) we will write w short int (2 bytes) meaning splitting them in half. Guna %hn
+
+
+
+
+Let’s break this down :
+
+We want to write 0xcafebabe. It means, 0xcafe (51966 in decimal) in the high order bytes and 0xbabe (47806 in decimal) in the low order bytes.
+We want to write those value at 0xffffceac. It means writing 0xcafe at 0xffffceac + 2 = 0xffffceae (high order) and 0xbabe at 0xffffceac (low order).
+Now, we have to figure out the value to set for the padding. Here is the formula :
+
+[The value we want] - [The bytes alredy wrote] = [The value to set].
+
+
+
+
+
+Payload = Low_addr + high_addr + %47798x + %7$hn + %4160x + %8$hn
+
+
+
+Low_addr = \xac\xce\xff\xff
+
+high_addr = \xae\xce\xff\xff
+
+0xbabe(in decimal is 47806 - 8 (the two 4 byte address in front)) = 47798
+
+0xcafe(in decimal is 51966 - 47806 (the two 4 byte address in front + 47798) = 4160)
+
+
+
+python2 -c 'print "\xac\xce\xff\xff\xae\xce\xff\xff%47798x%7$hn%4160x%8$hn"' > payload 
+
+breakpoint dekat main and keep stepping over sampai lepas printf, inspect the address

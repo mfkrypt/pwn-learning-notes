@@ -1,0 +1,9 @@
+32-bit programs =  read function variables off the stack
+
+Overflow + ret(4 bytes) + win
+
+
+
+64-bit programs =  read parameters from CPU registers (RDI, RSI, RDX, RCX etc), so we need to use "pop" instructions to prepare the parameters in the registers.
+
+Overflow + pop_rdi + param1 + pop_rsi + param2 + ret(8 bytes) + win

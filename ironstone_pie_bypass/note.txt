@@ -1,0 +1,1 @@
+Think of the base address as a map that helps you locate a treasure (the win function). You don't send the map to the program; instead, you use the map to figure out the treasure's coordinates (the address of win). The payload is like a delivery containing just the treasure's coordinates—it tells the program exactly where to go.
