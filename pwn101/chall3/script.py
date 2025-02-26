@@ -3,7 +3,7 @@ from pwn import *
 elf = context.binary = ELF('./pwn103-1644300337872.pwn103')
 context.log_level = 'debug'
 
-io = remote('10.10.251.98', 9003)
+io = remote('10.10.214.74', 9003)
 
 io.sendlineafter(b'  Choose the channel: ', '3')
 

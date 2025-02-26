@@ -3,7 +3,7 @@ from pwn import *
 elf = context.binary = ELF('./pwn108-1644300489260.pwn108', checksec=False)
 context.log_level = 'debug'
 
-io = remote('10.10.227.41', 9008)
+io = remote('10.10.214.74', 9008)
 
 io.sendlineafter(b'=[Your name]: ', '1')
 
