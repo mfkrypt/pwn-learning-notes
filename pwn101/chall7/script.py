@@ -3,7 +3,7 @@ from pwn import *
 elf = context.binary = ELF('./pwn107-1644307530397.pwn107')
 context.log_level = 'debug'
 
-io = remote('10.10.214.74', 9007)
+ io = remote('10.10.214.74', 9007)
 # io = process()
 
 

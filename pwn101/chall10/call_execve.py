@@ -11,6 +11,8 @@ data_location = 0x004c00e0
 
 
 ### Requires the use of execve syscall which uses (RDI, RSI, RDX, RAX)
+## execve("/bin//sh", NULL, NULL)
+
 ## "Writing what to where" (Writing 'binsh' to '.data' section)
 
 ## We will attempt to fill:

