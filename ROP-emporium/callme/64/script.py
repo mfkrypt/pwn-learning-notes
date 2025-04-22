@@ -1,3 +1,5 @@
+# Decompile the .so file to find out the function validation
+
 from pwn import *
 
 elf = context.binary = ELF('./callme', checksec=False,)

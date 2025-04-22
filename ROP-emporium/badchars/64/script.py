@@ -19,7 +19,10 @@ pop_rdi = 0x4006a3					# pop rdi; ret;
 
 ## Find offset
 
+# Set the charset first to generate string
 # cyclic -a bcdefhijklm
+
+# Check offset
 # cyclic -a bcdefhijklm -l hbbbbbbb
 
 
